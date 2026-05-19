@@ -1,13 +1,14 @@
 {
   "name": "llm-arena",
-  "version": "1.0.0",
-  "description": "LLM Arena - 大模型竞技场 Claude Code Skill. 50+ providers, daily/weekly/monthly rankings, user veto power.",
+  "version": "2.0.0",
+  "description": "Claude Code skill that makes 50+ LLMs compete. 10-dimension scoring, Elo ratings, emoji moods, blind battles, achievements, user veto power.",
   "main": "bin/setup.js",
   "bin": {
     "llm-arena": "bin/setup.js"
   },
   "scripts": {
-    "test": "node bin/setup.js --help"
+    "test": "node bin/setup.js --help",
+    "postinstall": "node bin/setup.js --postinstall"
   },
   "keywords": [
     "llm",
@@ -17,7 +18,17 @@
     "ai",
     "model",
     "ranking",
-    "competition"
+    "competition",
+    "elo",
+    "benchmark",
+    "chatgpt",
+    "claude",
+    "deepseek",
+    "gemini",
+    "openai",
+    "anthropic",
+    "provider",
+    "api"
   ],
   "author": "Han-cy830",
   "license": "MIT",
@@ -25,11 +36,18 @@
     "type": "git",
     "url": "https://github.com/Han-cy830/llm-arena"
   },
+  "homepage": "https://han-cy830.github.io/llm-arena",
+  "bugs": {
+    "url": "https://github.com/Han-cy830/llm-arena/issues"
+  },
   "engines": {
     "node": ">=16.0.0"
   },
   "files": [
     "bin/",
+    "src/",
+    "data/",
+    "skill/",
     "README.md",
     "LICENSE"
   ]
