@@ -2,6 +2,12 @@
 
 让 50+ 个大模型供应商内卷竞争，优胜劣汰！数据驱动排名，用户一票否决。
 
+## 一键安装
+
+```bash
+npx github:Han-cy830/llm-arena
+```
+
 ## 核心特性
 
 - **50+ 供应商**: Claude Official、胜算云、火山、DeepSeek、Gemini、OpenRouter 等全覆盖
