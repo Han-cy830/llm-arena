@@ -274,7 +274,7 @@ def cmd_quick(args):
         print(env_result["shell_export"])
 
 
-def cmd_status():
+def cmd_status(args=None):
     """完整状态面板"""
     switcher = APISwitcher()
     arena = LLMArena()
