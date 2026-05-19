@@ -9,16 +9,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from arena import LLMArena
+from arena_v2 import ArenaV2
 from switcher import APISwitcher
-from display import RankingDisplay
+from display_v2 import DisplayV2
 
 
 def print_help():
     print("""
-╔══════════════════════════════════════════════════════════════╗
-║              🏆 LLM Arena - 大模型竞技场 CLI               ║
-╚══════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════╗
+║         🏆 LLM Arena V2 - 大模型竞技场 (10维评分 + 心情系统)      ║
+╚════════════════════════════════════════════════════════════════════╝
 
 供应商管理:
   provider list                      列出所有供应商
@@ -30,27 +30,32 @@ def print_help():
   provider add <id> <json>           添加自定义供应商
   provider remove <id>               移除供应商
 
-竞技场:
+竞技场 (10维评分):
   arena register <id> [name]         注册模型
   arena record <id> <t> <s> <q>     记录表现 (token/耗时/质量)
-  arena battle <json_file>           多模型对决
-  arena veto <id> <rank|ban>         用户否决权
-  arena weights <t> <s> <q>         调整权重
+  arena battle <json_file>           多模型对决 (自动Elo评级)
+  arena veto <id> <rank|ban>         用户否决权 (至高无上)
+  arena rate <id> <0-10>             用户满意度评分
 
 排名展示:
-  rank                               展示所有排行榜
+  rank                               展示所有排行榜 (含心情)
   rank daily                         日榜
   rank weekly                        周榜
   rank monthly                       月榜
   rank total                         总榜
-  rank detail <model_id>             模型详情
-  rank summary                       竞技场概览
+  rank detail <model_id>             模型详情 (10维雷达)
+  rank mood                          心情总览
+  rank achievements                  成就殿堂
   rank export [period]               导出 Markdown
 
 快捷操作:
   quick <provider_id>                快速切换并显示配置
   status                             完整状态面板
   help                               显示此帮助
+
+评分维度 (10维):
+  ⚡Token效率 ⏱️思考速度 🎯回答质量 📊一致性 🛡️错误率
+  💰性价比 📈延迟稳定 🔄进步趋势 ⚔️胜率 ❤️用户满意度
 """)
 
 
@@ -176,10 +181,10 @@ def cmd_provider(args):
 
 
 def cmd_arena(args):
-    arena = LLMArena()
+    arena = ArenaV2()
 
     if not args:
-        print("用法: arena <register|record|battle|veto|weights>")
+        print("用法: arena <register|record|battle|veto|rate|weights>")
         return
 
     sub = args[0]
@@ -188,14 +193,16 @@ def cmd_arena(args):
         if len(args) < 2:
             print("用法: arena register <model_id> [display_name]")
             return
-        arena.register_model(args[1], args[2] if len(args) > 2 else "")
+        arena.register(args[1], args[2] if len(args) > 2 else "")
+        print(f"✅ 模型 [{args[1]}] 已注册")
 
     elif sub == "record":
         if len(args) < 5:
-            print("用法: arena record <model_id> <tokens> <think_time> <quality>")
+            print("用法: arena record <model_id> <tokens> <think_time> <quality> [error]")
             return
-        score = arena.record_match(args[1], int(args[2]), float(args[3]), float(args[4]))
-        print(f"📊 记录完成，本次得分: {score:.3f}")
+        error = args[5].lower() in ("true", "1", "yes") if len(args) > 5 else False
+        score = arena.record_match(args[1], int(args[2]), float(args[3]), float(args[4]), error=error)
+        print(f"📊 记录完成，本次效率分: {score:.3f}")
 
     elif sub == "battle":
         if len(args) < 2:
@@ -206,7 +213,10 @@ def cmd_arena(args):
         winner, results = arena.record_battle(data)
         print(f"\n🏆 胜者: {winner}")
         for mid, sc in results:
-            print(f"  {mid}: {sc:.3f}")
+            p = arena.profiles.get(mid)
+            if p:
+                elo = p.elo
+                print(f"  {mid}: {sc:.3f} (Elo: {elo:.0f})")
 
     elif sub == "veto":
         if len(args) < 3:
@@ -218,21 +228,34 @@ def cmd_arena(args):
         else:
             arena.user_veto(args[1], rank=int(val))
 
+    elif sub == "rate":
+        if len(args) < 3:
+            print("用法: arena rate <model_id> <0-10>")
+            return
+        rating = float(args[2])
+        arena.user_veto(args[1], user_rating=rating)
+        print(f"❤️ 用户满意度评分: {args[1]} = {rating}/10")
+
     elif sub == "weights":
         if len(args) < 4:
-            print("用法: arena weights <token_eff> <speed> <quality>")
+            print("用法: arena weights <token> <speed> <quality>")
             return
-        arena.set_weights(float(args[1]), float(args[2]), float(args[3]))
+        arena.set_weights(
+            token_efficiency=float(args[1]),
+            think_speed=float(args[2]),
+            quality=float(args[3]),
+        )
+        print(f"⚖️ 权重已更新")
 
     else:
         print(f"未知子命令: {sub}")
 
 
 def cmd_rank(args):
-    display = RankingDisplay()
+    display = DisplayV2()
 
     if not args:
-        display.show_all_rankings()
+        display.show_all()
         return
 
     sub = args[0]
@@ -245,8 +268,12 @@ def cmd_rank(args):
             print("用法: rank detail <model_id>")
             return
         display.show_model_detail(args[1])
+    elif sub == "mood":
+        display.show_mood_board()
+    elif sub == "achievements":
+        display.show_achievements_board()
     elif sub == "summary":
-        display.show_summary()
+        display.show_ranking("all")
     elif sub == "export":
         period = args[1] if len(args) > 1 else "all"
         print(display.export_markdown(period))
@@ -277,14 +304,14 @@ def cmd_quick(args):
 def cmd_status(args=None):
     """完整状态面板"""
     switcher = APISwitcher()
-    arena = LLMArena()
-    display = RankingDisplay(arena)
+    arena = ArenaV2()
+    display = DisplayV2(arena)
 
     # 当前配置
     config = switcher.get_active_config()
-    print(f"\n{'═'*60}")
-    print(f"  🏆 LLM Arena 状态面板")
-    print(f"{'═'*60}")
+    print(f"\n{'═'*65}")
+    print(f"  🏆 LLM Arena V2 状态面板")
+    print(f"{'═'*65}")
 
     if "error" not in config:
         print(f"\n  📡 当前供应商: {config['provider_name']}")
@@ -292,18 +319,9 @@ def cmd_status(args=None):
     else:
         print(f"\n  📡 未设置活跃供应商")
 
-    # 竞技场概览
-    display.show_summary()
-
-    # 快速排名
-    ranking = arena.get_ranking("all")
-    if ranking:
-        print(f"  🏅 Top 3:")
-        for i, r in enumerate(ranking[:3]):
-            medal = ["🥇", "🥈", "🥉"][i]
-            print(f"     {medal} {r['display_name']} (效率分: {r['efficiency_score']:.3f})")
-
-    print()
+    # 竞技场排名
+    display.show_ranking("all")
+    display.show_mood_board()
 
 
 def main():

@@ -1,0 +1,14 @@
+{
+  "weights": {
+    "token_efficiency": 0.15,
+    "think_speed": 0.1,
+    "quality": 0.2,
+    "consistency": 0.1,
+    "error_rate": 0.08,
+    "cost_efficiency": 0.1,
+    "latency_stability": 0.07,
+    "improvement_trend": 0.05,
+    "win_rate": 0.1,
+    "user_satisfaction": 0.05
+  }
+}
