@@ -1,6 +1,18 @@
 # LLM Arena V2 - 大模型竞技场
 
-让 50+ 个大模型供应商内卷竞争，优胜劣汰！10维评分 + Elo评级 + emoji心情 + 成就系统，用户一票否决。
+> 让 50+ 个大模型供应商内卷竞争，优胜劣汰！
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-16+-blue.svg)](https://nodejs.org)
+[![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)](https://python.org)
+[![npx](https://img.shields.io/badge/npx-install-orange.svg)](https://github.com/Han-cy830/llm-arena)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Han-cy830/llm-arena/pulls)
+
+**10维评分** | **Elo 评级** | **emoji 心情** | **成就系统** | **用户否决权至高无上**
+
+```bash
+npx github:Han-cy830/llm-arena  # 一键安装
+```
 
 ---
 
@@ -395,6 +407,25 @@ npx github:Han-cy830/llm-arena
 ```bash
 npx github:Han-cy830/llm-arena uninstall
 ```
+
+## 为什么用 LLM Arena？
+
+| 痛点 | 解决方案 |
+|------|---------|
+| 不知道哪个模型最好 | 10维评分 + Elo 自动排名 |
+| 手动切换 API 太麻烦 | 50+ 供应商一键切换 |
+| 排名太死板 | emoji 心情动态变化，成就系统 |
+| 算法排名不靠谱 | 用户否决权至高无上 |
+| 只看质量不看成本 | Token效率 + 性价比纳入评分 |
+| 不知道模型在进步还是退步 | 趋势分析 + 进步趋势维度 |
+
+## 贡献
+
+欢迎贡献！查看 [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Han-cy830/llm-arena&type=Date)](https://star-history.com/#Han-cy830/llm-arena&Date)
 
 ## License
 
