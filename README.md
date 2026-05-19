@@ -179,6 +179,11 @@ python src/cli.py rank
 - **用户否决权**: 你的排名你做主，无视算法直接指定，至高无上
 - **用户满意度**: 直接给模型打分 (arena rate)
 - **API 优先级**: 排名最高的模型自动获得更高调用优先级
+- **盲测对决**: 借鉴 Chatbot Arena，隐藏模型身份让用户投票
+- **段位系统**: 传奇/钻石/黄金/白银/青铜/黑铁，游戏化排名
+- **模型人格**: trash talk 系统，对战后互相嘲讽
+- **荣誉殿堂 / 耻辱墙**: 冠军荣耀 vs 垫底耻辱
+- **10维雷达图**: ASCII 终端可视化，直观对比模型实力
 
 ## 支持的供应商 (50+)
 
@@ -216,6 +221,19 @@ arena battle <json_file>           # 多模型对决 (自动Elo评级)
 arena veto <id> <rank|ban>         # 用户否决权 (至高无上)
 arena rate <id> <0-10>             # 用户满意度评分
 arena weights <t> <s> <q>         # 调整权重
+```
+
+### 对战竞技场 (借鉴 Chatbot Arena)
+
+```bash
+battle blind <a> <b>               # 盲测对决 (隐藏身份投票)
+battle vote <a> <b> <winner>       # 投票 (winner=a/b/draw)
+battle radar <model_id>            # 10维雷达图
+battle compare <a> <b>             # 双模型对比
+battle leaderboard [period]        # 增强排行榜 (段位系统)
+battle fame                        # 荣誉殿堂
+battle shame                       # 耻辱墙
+battle weekly                      # 本周奖项
 ```
 
 ### 排名展示 (含心情)

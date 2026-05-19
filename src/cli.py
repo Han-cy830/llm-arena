@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from arena_v2 import ArenaV2
 from switcher import APISwitcher
 from display_v2 import DisplayV2
+from battle_arena import BattleArena
 
 
 def print_help():
@@ -36,6 +37,16 @@ def print_help():
   arena battle <json_file>           多模型对决 (自动Elo评级)
   arena veto <id> <rank|ban>         用户否决权 (至高无上)
   arena rate <id> <0-10>             用户满意度评分
+
+对战竞技场:
+  battle blind <a> <b>               盲测对决 (隐藏身份投票)
+  battle vote <a> <b> <w>           投票 (w=a/b/draw)
+  battle radar <model>               10维雷达图
+  battle compare <a> <b>             双模型对比
+  battle leaderboard [period]        增强排行榜 (段位系统)
+  battle fame                        荣誉殿堂
+  battle shame                       耻辱墙
+  battle weekly                      本周奖项
 
 排名展示:
   rank                               展示所有排行榜 (含心情)
@@ -281,6 +292,58 @@ def cmd_rank(args):
         print(f"未知子命令: {sub}")
 
 
+def cmd_battle(args):
+    """对战竞技场命令"""
+    if not args:
+        print("用法: battle <blind|vote|radar|compare|leaderboard|fame|shame|weekly>")
+        return
+
+    battle = BattleArena()
+    sub = args[0]
+
+    if sub == "blind":
+        if len(args) < 3:
+            print("用法: battle blind <model_a> <model_b>")
+            return
+        battle.blind_battle(args[1], args[2])
+
+    elif sub == "vote":
+        if len(args) < 4:
+            print("用法: battle vote <model_a> <model_b> <winner: a|b|draw>")
+            return
+        result = battle.vote(args[1], args[2], args[3])
+        battle.battle_animation(args[1], args[2], args[3])
+        print(f"\n  {result}")
+
+    elif sub == "radar":
+        if len(args) < 2:
+            print("用法: battle radar <model_id>")
+            return
+        battle.show_radar(args[1])
+
+    elif sub == "compare":
+        if len(args) < 3:
+            print("用法: battle compare <model_a> <model_b>")
+            return
+        battle.show_radar_compare(args[1], args[2])
+
+    elif sub == "leaderboard":
+        period = args[1] if len(args) > 1 else "all"
+        battle.show_leaderboard(period)
+
+    elif sub == "fame":
+        battle.show_hall_of_fame()
+
+    elif sub == "shame":
+        battle.show_wall_of_shame()
+
+    elif sub == "weekly":
+        battle.show_weekly_awards()
+
+    else:
+        print(f"未知子命令: {sub}")
+
+
 def cmd_quick(args):
     """快速切换并显示配置"""
     if not args:
@@ -335,6 +398,7 @@ def main():
     commands = {
         "provider": cmd_provider,
         "arena": cmd_arena,
+        "battle": cmd_battle,
         "rank": cmd_rank,
         "quick": cmd_quick,
         "status": cmd_status,
