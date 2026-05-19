@@ -2,11 +2,158 @@
 
 让 50+ 个大模型供应商内卷竞争，优胜劣汰！数据驱动排名，用户一票否决。
 
-## 一键安装
+---
+
+## 安装方式
+
+### 方式一：npx 一键安装（推荐）
 
 ```bash
 npx github:Han-cy830/llm-arena
 ```
+
+自动完成所有配置，无需手动操作。
+
+### 方式二：Git 克隆
+
+```bash
+git clone https://github.com/Han-cy830/llm-arena.git ~/.agents/skills/llm-arena
+```
+
+然后创建 Claude Code 链接：
+
+```bash
+# Windows (CMD)
+mklink /J "%APPDATA%\claude\skills\llm-arena" "%USERPROFILE%\.agents\skills\llm-arena"
+
+# Windows (PowerShell)
+New-Item -ItemType Junction -Path "$env:APPDATA\claude\skills\llm-arena" -Target "$env:USERPROFILE\.agents\skills\llm-arena"
+
+# macOS / Linux
+ln -s ~/.agents/skills/llm-arena ~/.claude/skills/llm-arena
+```
+
+### 方式三：下载 ZIP
+
+1. 打开 https://github.com/Han-cy830/llm-arena
+2. 点击绿色 **Code** 按钮 → **Download ZIP**
+3. 解压到以下目录之一：
+
+```
+# Windows
+%USERPROFILE%\.agents\skills\llm-arena
+
+# macOS / Linux
+~/.agents/skills/llm-arena
+```
+
+4. 创建 Claude Code 链接（同方式二的链接命令）
+
+### 方式四：curl 下载安装脚本
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Han-cy830/llm-arena/master/bin/setup.js | node
+```
+
+```bash
+# Windows (PowerShell)
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Han-cy830/llm-arena/master/bin/setup.js" -OutFile "$env:TEMP\llm-arena-setup.js"; node "$env:TEMP\llm-arena-setup.js"
+```
+
+### 方式五：npm 全局安装（即将上线）
+
+```bash
+npm install -g llm-arena
+llm-arena install
+```
+
+---
+
+## 安装步骤详解
+
+### 前置要求
+
+| 依赖 | 必需 | 安装命令 |
+|------|:----:|---------|
+| **Node.js 16+** | ✅ | [nodejs.org](https://nodejs.org) 或 `winget install OpenJS.NodeJS.LTS` |
+| **Git** | ✅ | [git-scm.com](https://git-scm.com) 或 `winget install Git.Git` |
+| **Python 3.10+** | 可选 | [python.org](https://python.org) 或 `winget install Python.Python.3.12` |
+
+> Python 仅用于 CLI 命令行工具，skill 本身不依赖 Python。
+
+### 步骤 1：安装
+
+选择上面任意一种安装方式。推荐 npx：
+
+```bash
+npx github:Han-cy830/llm-arena
+```
+
+安装成功后会看到：
+
+```
+✅ Skill 文件下载完成
+✅ Claude Code skill 链接创建成功
+
+🏆 LLM Arena Skill 安装成功!
+```
+
+### 步骤 2：配置 API Key
+
+选择你要使用的供应商，设置对应的环境变量：
+
+```bash
+# Claude Official
+export ANTHROPIC_API_KEY="sk-ant-xxx"
+
+# DeepSeek
+export DEEPSEEK_API_KEY="sk-xxx"
+
+# OpenRouter
+export OPENROUTER_API_KEY="sk-or-xxx"
+
+# 火山引擎
+export VOLC_API_KEY="xxx"
+
+# 百炼
+export DASHSCOPE_API_KEY="sk-xxx"
+```
+
+Windows 用户：
+```powershell
+# PowerShell
+$env:ANTHROPIC_API_KEY="sk-ant-xxx"
+# 或永久设置
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-xxx", "User")
+```
+
+### 步骤 3：验证安装
+
+```bash
+# 查看供应商列表（确认 skill 已加载）
+python src/cli.py provider list
+
+# 切换到你想用的供应商
+python src/cli.py provider switch deepseek
+
+# 查看当前配置
+python src/cli.py provider active
+
+# 查看排名（首次为空，使用后会自动积累数据）
+python src/cli.py rank
+```
+
+### 步骤 4：在 Claude Code 中使用
+
+重新打开 Claude Code，输入以下任意内容即可触发 skill：
+
+- `/llm-arena`
+- "帮我切换到 DeepSeek"
+- "查看模型排名"
+- "哪个模型最好"
+
+---
 
 ## 核心特性
 
@@ -25,29 +172,10 @@ npx github:Han-cy830/llm-arena
 | 官方 API | Claude Official, Codex, GitHub Copilot, Gemini Native, DeepSeek |
 | 国内大厂 | 火山 Agentplan, BytePlus, DouBaoSeed, 百度千帆, 百炼, Kimi, 阶跃星辰 |
 | 云服务 | AWS Bedrock (AKSK/API Key), Nvidia |
-| 中转平台 | 胜算云, PatewayAI, AiHubMix, DMXAPI, OpenRouter, TheRouter |
-| 编码专用 | 百炼 Coding, Kimi Coding, KAT-Coder, PackyCode, RelaxyCode |
-| 国内平台 | Zhipu GLM, MiniMax, SiliconFlow, ModelScope, 优云智算, CTok.ai |
-| 其他 | ClaudeAPI, ClaudeCN, RunAPI, Cubence, AIGoCode, RightCode, AICodeMirror 等 |
-
-## 快速开始
-
-```bash
-# 查看所有供应商
-python src/cli.py provider list
-
-# 切换到 DeepSeek
-python src/cli.py provider switch deepseek
-
-# 切换到 OpenRouter 并指定模型
-python src/cli.py provider switch openrouter "anthropic/claude-sonnet-4"
-
-# 查看当前配置
-python src/cli.py provider active
-
-# 生成环境变量
-python src/cli.py provider env
-```
+| 中转平台 | 胜算云, PatewayAI, AiHubMix, DMXAPI, OpenRouter, TheRouter, Novita AI |
+| 编码专用 | 百炼 Coding, Kimi Coding, KAT-Coder, PackyCode, RelaxyCode, 优云智算 Coding |
+| 国内平台 | Zhipu GLM, MiniMax, SiliconFlow, ModelScope, Xiaomi MiMo, Longcat, BaiLing |
+| 其他 20+ | ClaudeAPI, ClaudeCN, RunAPI, Cubence, AIGoCode, RightCode, AICodeMirror, AICoding, CrazyRouter, SSSAiCode, 优云智算, Micu, CTok.ai, E-FlowCode, LionCCAPI, PIPELLM, LemonData 等 |
 
 ## CLI 命令大全
 
@@ -117,18 +245,6 @@ arena veto deepseek ban
 arena veto gpt-4 0
 ```
 
-## API 路由
-
-```python
-from src.arena import LLMArena
-from src.api_router import ArenaRouter
-
-router = ArenaRouter()
-best = router.get_best_model()       # 当前最优模型
-priority = router.get_priority_list() # 完整优先级列表
-result = router.call("你的 prompt")   # 自动路由调用
-```
-
 ## 自定义供应商
 
 创建 JSON 文件：
@@ -154,6 +270,8 @@ provider add my-api my-api.json
 
 ```
 llm-arena/
+├── bin/
+│   └── setup.js          # npx 安装脚本
 ├── src/
 │   ├── cli.py            # 统一 CLI 入口
 │   ├── arena.py          # 核心竞技场引擎
@@ -167,8 +285,51 @@ llm-arena/
 │   ├── overrides.json    # 用户否决（自动）
 │   └── config.json       # 权重配置（自动）
 ├── skill/
-│   └── SKILL.md          # Claude Code Skill
+│   └── SKILL.md          # Claude Code Skill 定义
+├── package.json          # npx 包配置
 └── README.md
+```
+
+## 常见问题
+
+### npx 命令找不到
+
+```bash
+# 安装 Node.js
+winget install OpenJS.NodeJS.LTS
+```
+
+### Python 命令找不到
+
+```bash
+# 安装 Python
+winget install Python.Python.3.12
+```
+
+### 安装后 Claude Code 中无法触发
+
+1. 确认链接存在：
+```bash
+# Windows
+dir "%APPDATA%\claude\skills\llm-arena"
+
+# macOS / Linux
+ls -la ~/.claude/skills/llm-arena
+```
+
+2. 重启 Claude Code
+
+### 如何更新
+
+```bash
+# 重新运行 npx 安装即可覆盖更新
+npx github:Han-cy830/llm-arena
+```
+
+### 如何卸载
+
+```bash
+npx github:Han-cy830/llm-arena uninstall
 ```
 
 ## License
