@@ -364,25 +364,135 @@ llm-arena/
 │   └── setup.js          # npx 安装脚本
 ├── src/
 │   ├── cli.py            # 统一 CLI 入口
+│   ├── mcp_server.py     # MCP Server (任何 AI 工具可用)
 │   ├── arena_v2.py       # V2 竞技场引擎 (10维+Elo+心情+成就)
 │   ├── display_v2.py     # V2 排名展示 (emoji心情)
+│   ├── battle_arena.py   # 对战竞技场 (盲测/段位/雷达图)
 │   ├── arena.py          # V1 竞技场引擎 (兼容)
 │   ├── switcher.py       # API 供应商切换器
 │   ├── api_router.py     # API 智能路由器
 │   ├── evaluator.py      # 自动评估器
 │   └── display.py        # V1 排名展示 (兼容)
+├── vscode-extension/     # VS Code 扩展
+│   ├── src/
+│   │   ├── extension.ts  # 扩展入口
+│   │   ├── ArenaCli.ts   # CLI 执行器
+│   │   ├── RankingsPanel.ts
+│   │   └── ModelTreeProvider.ts
+│   ├── package.json
+│   └── media/
 ├── data/
 │   ├── providers.json    # 50+ 供应商配置
 │   ├── scores_v2.json    # V2 模型数据（自动）
 │   ├── battle_history.json # 对决历史（自动）
 │   ├── config_v2.json    # V2 权重配置（自动）
 │   ├── overrides.json    # 用户否决（自动）
-│   └── scores.json       # V1 数据（兼容）
+│   └── scores.json       # V1 数据（兼容)
 ├── skill/
 │   └── SKILL.md          # Claude Code Skill 定义
+├── requirements.txt      # Python 依赖 (mcp)
 ├── package.json          # npx 包配置
 └── README.md
 ```
+
+## MCP Server
+
+任何 AI 工具（Claude Code、Cursor、Claude Desktop）都能通过 MCP 协议调用 LLM Arena。
+
+### 安装
+
+```bash
+pip install mcp
+```
+
+### 使用
+
+```bash
+# stdio 模式（本地客户端）
+python src/mcp_server.py
+
+# HTTP 模式（远程访问）
+python src/mcp_server.py --http --port 8000
+```
+
+### Claude Code 配置
+
+在项目根目录创建 `.mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "llm-arena": {
+      "command": "python",
+      "args": ["src/mcp_server.py"]
+    }
+  }
+}
+```
+
+### Claude Desktop 配置
+
+编辑 `claude_desktop_config.json`：
+
+```json
+{
+  "mcpServers": {
+    "llm-arena": {
+      "command": "python",
+      "args": ["/path/to/llm-arena/src/mcp_server.py"]
+    }
+  }
+}
+```
+
+### 可用工具 (12个)
+
+| 工具 | 说明 |
+|------|------|
+| `register_model` | 注册模型 |
+| `record_match` | 记录单次表现 |
+| `record_battle` | 多模型对决 |
+| `get_ranking` | 获取排名 |
+| `get_top_model` | 获取最佳模型 |
+| `user_veto` | 用户否决权 |
+| `set_weights` | 调整评分权重 |
+| `list_providers` | 列出供应商 |
+| `switch_provider` | 切换供应商 |
+| `get_active_config` | 当前配置 |
+| `vote_battle` | 盲测投票 |
+| `compare_models` | 双模型对比 |
+
+### 可用资源 (5个)
+
+| 资源 | 说明 |
+|------|------|
+| `arena://ranking/{period}` | 排名数据 |
+| `arena://providers` | 供应商列表 |
+| `arena://config` | 当前配置 |
+| `arena://mood` | 心情总览 |
+| `arena://achievements` | 成就数据 |
+
+## VS Code Extension
+
+在 VS Code 中直接查看排名、记录对决、切换供应商。
+
+### 安装
+
+```bash
+cd vscode-extension
+npm install
+npm run compile
+# 按 F5 启动调试
+```
+
+### 功能
+
+- **侧边栏模型树** — 排名、Elo、心情 emoji、效率分
+- **排名面板** — 日/周/月/总榜，可刷新
+- **记录对决** — 输入框记录模型表现
+- **切换供应商** — 快速选择 50+ 供应商
+- **模型详情** — 点击查看 10 维数据
+- **状态栏** — 快速访问排名
 
 ## 常见问题
 

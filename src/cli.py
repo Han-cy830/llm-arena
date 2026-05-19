@@ -81,6 +81,9 @@ def cmd_provider(args):
 
     if sub == "list":
         providers = switcher.list_providers()
+        if "--json" in args:
+            print(json.dumps(providers, ensure_ascii=False))
+            return
         print(f"\n  {'可用供应商':^20} ({len(providers)} 个)")
         print(f"  {'─'*65}")
 
@@ -116,6 +119,9 @@ def cmd_provider(args):
 
     elif sub == "active":
         config = switcher.get_active_config()
+        if "--json" in args:
+            print(json.dumps(config, ensure_ascii=False))
+            return
         if "error" in config:
             print(f"❌ {config['error']}")
         else:
@@ -288,6 +294,11 @@ def cmd_rank(args):
     elif sub == "export":
         period = args[1] if len(args) > 1 else "all"
         print(display.export_markdown(period))
+    elif sub == "json":
+        period = args[1] if len(args) > 1 else "all"
+        arena = ArenaV2()
+        ranking = arena.get_ranking(period)
+        print(json.dumps(ranking, ensure_ascii=False))
     else:
         print(f"未知子命令: {sub}")
 

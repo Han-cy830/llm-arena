@@ -1,0 +1,117 @@
+{
+  "name": "llm-arena",
+  "displayName": "LLM Arena",
+  "description": "Make 50+ LLMs compete - 10-dimension scoring, Elo ratings, emoji moods, achievements",
+  "version": "2.0.0",
+  "publisher": "han-cy830",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "llmArena.showRankings",
+        "title": "LLM Arena: Show Rankings",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "llmArena.showStatus",
+        "title": "LLM Arena: Show Status",
+        "icon": "$(pulse)"
+      },
+      {
+        "command": "llmArena.showModelDetail",
+        "title": "LLM Arena: Model Detail",
+        "icon": "$(info)"
+      },
+      {
+        "command": "llmArena.recordMatch",
+        "title": "LLM Arena: Record Match",
+        "icon": "$(add)"
+      },
+      {
+        "command": "llmArena.refreshTree",
+        "title": "LLM Arena: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "llmArena.switchProvider",
+        "title": "LLM Arena: Switch Provider",
+        "icon": "$(swap)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "llmArena",
+          "title": "LLM Arena",
+          "icon": "media/arena-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "llmArena": [
+        {
+          "id": "llmArena.models",
+          "name": "Models",
+          "icon": "media/arena-icon.svg",
+          "contextualTitle": "LLM Arena"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "llmArena.refreshTree",
+          "when": "view == llmArena.models",
+          "group": "navigation"
+        },
+        {
+          "command": "llmArena.showRankings",
+          "when": "view == llmArena.models",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "llmArena.showModelDetail",
+          "when": "view == llmArena.models && viewItem == model",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "LLM Arena",
+      "properties": {
+        "llmArena.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to Python executable"
+        },
+        "llmArena.cliPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to cli.py (auto-detected if empty)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.0.0"
+  }
+}
