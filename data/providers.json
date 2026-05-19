@@ -1,0 +1,579 @@
+{
+  "providers": {
+    "claude-official": {
+      "display_name": "Claude Official",
+      "base_url": "https://api.anthropic.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-opus-4-20250514", "claude-sonnet-4-20250514", "claude-haiku-3-5-20241022"],
+      "api_type": "anthropic",
+      "env_key": "ANTHROPIC_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "shengsuancloud": {
+      "display_name": "胜算云",
+      "base_url": "https://api.shengsuancloud.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "claude-opus-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "SHENGSUAN_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "patewayai": {
+      "display_name": "PatewayAI",
+      "base_url": "https://api.patewayai.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "claude-opus-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "PATEWAY_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "volc-agentplan": {
+      "display_name": "火山 Agentplan",
+      "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+      "default_model": "doubao-1-5-pro-256k-250115",
+      "models": ["doubao-1-5-pro-256k-250115", "doubao-1-5-lite-32k-250115", "deepseek-v3-250324", "deepseek-r1-250120"],
+      "api_type": "openai",
+      "env_key": "VOLC_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "byteplus": {
+      "display_name": "BytePlus",
+      "base_url": "https://api.byteplus.com/v1",
+      "default_model": "doubao-1-5-pro-256k",
+      "models": ["doubao-1-5-pro-256k", "doubao-1-5-lite-32k", "deepseek-v3", "deepseek-r1"],
+      "api_type": "openai",
+      "env_key": "BYTEPLUS_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "doubao-seed": {
+      "display_name": "DouBaoSeed",
+      "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+      "default_model": "doubao-seed-1-6-250615",
+      "models": ["doubao-seed-1-6-250615", "doubao-seed-1-6-vision-250615"],
+      "api_type": "openai",
+      "env_key": "DOUBAO_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "gemini-native": {
+      "display_name": "Gemini Native",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta",
+      "default_model": "gemini-2.5-pro",
+      "models": ["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.0-flash"],
+      "api_type": "google",
+      "env_key": "GOOGLE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "deepseek": {
+      "display_name": "DeepSeek",
+      "base_url": "https://api.deepseek.com/v1",
+      "default_model": "deepseek-chat",
+      "models": ["deepseek-chat", "deepseek-reasoner"],
+      "api_type": "openai",
+      "env_key": "DEEPSEEK_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "zhipu-glm": {
+      "display_name": "Zhipu GLM",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "default_model": "glm-4-plus",
+      "models": ["glm-4-plus", "glm-4-flash", "glm-4-long", "codegeex-4"],
+      "api_type": "openai",
+      "env_key": "ZHIPU_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "zhipu-glm-en": {
+      "display_name": "Zhipu GLM en",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "default_model": "glm-4-plus",
+      "models": ["glm-4-plus", "glm-4-flash"],
+      "api_type": "openai",
+      "env_key": "ZHIPU_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true,
+      "lang": "en"
+    },
+    "baidu-qianfan": {
+      "display_name": "Baidu Qianfan Coding Plan",
+      "base_url": "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop",
+      "default_model": "ernie-4.5-8k",
+      "models": ["ernie-4.5-8k", "ernie-4.5-128k", "ernie-4.0-8k", "ernie-speed-128k"],
+      "api_type": "baidu",
+      "env_key": "BAIDU_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "bailian": {
+      "display_name": "Bailian",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "default_model": "qwen-max",
+      "models": ["qwen-max", "qwen-plus", "qwen-turbo", "qwen-long", "qwen-vl-max"],
+      "api_type": "openai",
+      "env_key": "DASHSCOPE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "bailian-coding": {
+      "display_name": "Bailian For Coding",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "default_model": "qwen-coder-plus",
+      "models": ["qwen-coder-plus", "qwen-coder-turbo", "codeqwen-1.5-7b-chat"],
+      "api_type": "openai",
+      "env_key": "DASHSCOPE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "kimi": {
+      "display_name": "Kimi",
+      "base_url": "https://api.moonshot.cn/v1",
+      "default_model": "moonshot-v1-128k",
+      "models": ["moonshot-v1-128k", "moonshot-v1-32k", "moonshot-v1-8k"],
+      "api_type": "openai",
+      "env_key": "MOONSHOT_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "kimi-coding": {
+      "display_name": "Kimi For Coding",
+      "base_url": "https://api.moonshot.cn/v1",
+      "default_model": "k2-latest",
+      "models": ["k2-latest", "moonshot-v1-128k"],
+      "api_type": "openai",
+      "env_key": "MOONSHOT_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "stepfun": {
+      "display_name": "StepFun",
+      "base_url": "https://api.stepfun.com/v1",
+      "default_model": "step-2-16k",
+      "models": ["step-2-16k", "step-1-128k", "step-1-32k"],
+      "api_type": "openai",
+      "env_key": "STEPFUN_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "stepfun-en": {
+      "display_name": "StepFun en",
+      "base_url": "https://api.stepfun.com/v1",
+      "default_model": "step-2-16k",
+      "models": ["step-2-16k", "step-1-128k"],
+      "api_type": "openai",
+      "env_key": "STEPFUN_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true,
+      "lang": "en"
+    },
+    "modelscope": {
+      "display_name": "ModelScope",
+      "base_url": "https://api-inference.modelscope.cn/v1",
+      "default_model": "Qwen/Qwen2.5-72B-Instruct",
+      "models": ["Qwen/Qwen2.5-72B-Instruct", "Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/DeepSeek-V3"],
+      "api_type": "openai",
+      "env_key": "MODELSCOPE_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "kat-coder": {
+      "display_name": "KAT-Coder",
+      "base_url": "https://api.kat-coder.com/v1",
+      "default_model": "kat-coder-v1",
+      "models": ["kat-coder-v1"],
+      "api_type": "openai",
+      "env_key": "KATCODER_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "longcat": {
+      "display_name": "Longcat",
+      "base_url": "https://api.longcat.cloud/v1",
+      "default_model": "longcat-chat",
+      "models": ["longcat-chat", "longcat-code"],
+      "api_type": "openai",
+      "env_key": "LONGCAT_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "minimax": {
+      "display_name": "MiniMax",
+      "base_url": "https://api.minimax.chat/v1",
+      "default_model": "MiniMax-Text-01",
+      "models": ["MiniMax-Text-01", "abab6.5s-chat"],
+      "api_type": "openai",
+      "env_key": "MINIMAX_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "minimax-en": {
+      "display_name": "MiniMax en",
+      "base_url": "https://api.minimax.chat/v1",
+      "default_model": "MiniMax-Text-01",
+      "models": ["MiniMax-Text-01"],
+      "api_type": "openai",
+      "env_key": "MINIMAX_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true,
+      "lang": "en"
+    },
+    "bailing": {
+      "display_name": "BaiLing",
+      "base_url": "https://api.bailing.xyz/v1",
+      "default_model": "bailing-chat",
+      "models": ["bailing-chat", "bailing-code"],
+      "api_type": "openai",
+      "env_key": "BAILING_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "aihubmix": {
+      "display_name": "AiHubMix",
+      "base_url": "https://aihubmix.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat", "gemini-2.5-pro"],
+      "api_type": "openai",
+      "env_key": "AIHUBMIX_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "siliconflow": {
+      "display_name": "SiliconFlow",
+      "base_url": "https://api.siliconflow.cn/v1",
+      "default_model": "Qwen/Qwen2.5-72B-Instruct",
+      "models": ["Qwen/Qwen2.5-72B-Instruct", "deepseek-ai/DeepSeek-V3", "Pro/deepseek-ai/DeepSeek-R1"],
+      "api_type": "openai",
+      "env_key": "SILICONFLOW_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "siliconflow-en": {
+      "display_name": "SiliconFlow en",
+      "base_url": "https://api.siliconflow.cn/v1",
+      "default_model": "Qwen/Qwen2.5-72B-Instruct",
+      "models": ["Qwen/Qwen2.5-72B-Instruct", "deepseek-ai/DeepSeek-V3"],
+      "api_type": "openai",
+      "env_key": "SILICONFLOW_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true,
+      "lang": "en"
+    },
+    "dmxapi": {
+      "display_name": "DMXAPI",
+      "base_url": "https://www.dmxapi.cn/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat", "gemini-2.5-pro"],
+      "api_type": "openai",
+      "env_key": "DMXAPI_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "packycode": {
+      "display_name": "PackyCode",
+      "base_url": "https://api.packycode.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "PACKYCODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "claudeapi": {
+      "display_name": "ClaudeAPI",
+      "base_url": "https://api.claudeapi.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "claude-opus-4-20250514"],
+      "api_type": "anthropic",
+      "env_key": "CLAUDEAPI_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "claudecn": {
+      "display_name": "ClaudeCN",
+      "base_url": "https://api.claudecn.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "claude-opus-4-20250514"],
+      "api_type": "anthropic",
+      "env_key": "CLAUDECN_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "runapi": {
+      "display_name": "RunAPI",
+      "base_url": "https://api.runapi.cn/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "RUNAPI_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "relaxycode": {
+      "display_name": "RelaxyCode",
+      "base_url": "https://api.relaxycode.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "RELAXYCODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "cubence": {
+      "display_name": "Cubence",
+      "base_url": "https://api.cubence.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o"],
+      "api_type": "openai",
+      "env_key": "CUBENCE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "aigocode": {
+      "display_name": "AIGoCode",
+      "base_url": "https://api.aigocode.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "AIGOCODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "rightcode": {
+      "display_name": "RightCode",
+      "base_url": "https://api.rightcode.cn/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "RIGHTCODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "aicodemirror": {
+      "display_name": "AICodeMirror",
+      "base_url": "https://api.aicodemirror.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "AICODEMIRROR_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "aicoding": {
+      "display_name": "AICoding",
+      "base_url": "https://api.aicoding.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o"],
+      "api_type": "openai",
+      "env_key": "AICODING_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "crazyrouter": {
+      "display_name": "CrazyRouter",
+      "base_url": "https://api.crazyrouter.cn/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "CRAZYROUTER_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "sssaicode": {
+      "display_name": "SSSAiCode",
+      "base_url": "https://api.sssaicode.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o"],
+      "api_type": "openai",
+      "env_key": "SSSAICODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "youyun": {
+      "display_name": "优云智算",
+      "base_url": "https://api.youyun.cloud/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "YOUYUN_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "youyun-coding": {
+      "display_name": "优云智算 Coding Plan",
+      "base_url": "https://api.youyun.cloud/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "qwen-coder-plus"],
+      "api_type": "openai",
+      "env_key": "YOUYUN_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "micu": {
+      "display_name": "Micu",
+      "base_url": "https://api.micu.cloud/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "MICU_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "ctok": {
+      "display_name": "CTok.ai",
+      "base_url": "https://api.ctok.ai/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "CTOK_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "eflowcode": {
+      "display_name": "E-FlowCode",
+      "base_url": "https://api.eflowcode.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o"],
+      "api_type": "openai",
+      "env_key": "EFLOWCODE_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "lionccapi": {
+      "display_name": "LionCCAPI",
+      "base_url": "https://api.lionccapi.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "LIONCCAPI_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "openrouter": {
+      "display_name": "OpenRouter",
+      "base_url": "https://openrouter.ai/api/v1",
+      "default_model": "anthropic/claude-sonnet-4",
+      "models": ["anthropic/claude-sonnet-4", "anthropic/claude-opus-4", "openai/gpt-4o", "deepseek/deepseek-chat-v3-0324", "google/gemini-2.5-pro-preview"],
+      "api_type": "openai",
+      "env_key": "OPENROUTER_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "therouter": {
+      "display_name": "TheRouter",
+      "base_url": "https://api.therouter.ai/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "THEROUTER_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "novita": {
+      "display_name": "Novita AI",
+      "base_url": "https://api.novita.ai/v3/openai",
+      "default_model": "deepseek/deepseek-v3-0324",
+      "models": ["deepseek/deepseek-v3-0324", "deepseek/deepseek-r1", "meta-llama/llama-3.1-70b-instruct"],
+      "api_type": "openai",
+      "env_key": "NOVITA_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "github-copilot": {
+      "display_name": "GitHub Copilot",
+      "base_url": "https://api.githubcopilot.com/v1",
+      "default_model": "gpt-4o",
+      "models": ["gpt-4o", "claude-sonnet-4-20250514", "gemini-2.5-pro"],
+      "api_type": "openai",
+      "env_key": "GITHUB_COPILOT_TOKEN",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "codex": {
+      "display_name": "Codex",
+      "base_url": "https://api.openai.com/v1",
+      "default_model": "codex-mini-latest",
+      "models": ["codex-mini-latest", "o4-mini", "gpt-4o"],
+      "api_type": "openai",
+      "env_key": "OPENAI_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "lemondata": {
+      "display_name": "LemonData",
+      "base_url": "https://api.lemondata.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "LEMONDATA_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "nvidia": {
+      "display_name": "Nvidia",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "default_model": "meta/llama-3.1-405b-instruct",
+      "models": ["meta/llama-3.1-405b-instruct", "deepseek-ai/deepseek-r1", "nvidia/llama-3.1-nemotron-70b-instruct"],
+      "api_type": "openai",
+      "env_key": "NVIDIA_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true
+    },
+    "pipellm": {
+      "display_name": "PIPELLM",
+      "base_url": "https://api.pipellm.com/v1",
+      "default_model": "claude-sonnet-4-20250514",
+      "models": ["claude-sonnet-4-20250514", "gpt-4o", "deepseek-chat"],
+      "api_type": "openai",
+      "env_key": "PIPELLM_API_KEY",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "xiaomi-mimo": {
+      "display_name": "Xiaomi MiMo",
+      "base_url": "https://api.mimo.xiaomi.com/v1",
+      "default_model": "MiMo-7B-RL",
+      "models": ["MiMo-7B-RL"],
+      "api_type": "openai",
+      "env_key": "XIAOMI_MIMO_API_KEY",
+      "max_tokens": 4096,
+      "supports_streaming": true,
+      "supports_thinking": true
+    },
+    "aws-bedrock-aksk": {
+      "display_name": "AWS Bedrock (AKSK)",
+      "base_url": "https://bedrock-runtime.us-east-1.amazonaws.com",
+      "default_model": "anthropic.claude-sonnet-4-20250514-v1:0",
+      "models": ["anthropic.claude-sonnet-4-20250514-v1:0", "anthropic.claude-opus-4-20250514-v1:0", "amazon.nova-pro-v1:0"],
+      "api_type": "bedrock",
+      "env_key": "AWS_ACCESS_KEY_ID",
+      "env_key_secret": "AWS_SECRET_ACCESS_KEY",
+      "env_key_region": "AWS_DEFAULT_REGION",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    },
+    "aws-bedrock-apikey": {
+      "display_name": "AWS Bedrock (API Key)",
+      "base_url": "https://bedrock-runtime.us-east-1.amazonaws.com",
+      "default_model": "anthropic.claude-sonnet-4-20250514-v1:0",
+      "models": ["anthropic.claude-sonnet-4-20250514-v1:0", "anthropic.claude-opus-4-20250514-v1:0"],
+      "api_type": "bedrock-apikey",
+      "env_key": "AWS_BEARER_TOKEN_BEDROCK",
+      "max_tokens": 8192,
+      "supports_streaming": true
+    }
+  },
+  "active_provider": "claude-official",
+  "active_model": null,
+  "switch_history": []
+}

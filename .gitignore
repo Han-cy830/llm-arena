@@ -1,8 +1,10 @@
 __pycache__/
 *.pyc
-data/*.json
 .venv/
 .env
 *.egg-info/
 dist/
 build/
+data/scores.json
+data/overrides.json
+data/config.json
