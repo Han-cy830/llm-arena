@@ -1,20 +1,41 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LLM Arena V2 - 大模型竞技场</title>
-<meta name="description" content="50+ 大模型供应商内卷竞争！10维评分 + Elo评级 + emoji心情 + 成就系统，用户一票否决。">
-<meta name="keywords" content="LLM, AI, Claude, GPT, DeepSeek, Gemini, 模型排名, 竞技场, API, benchmark">
-<meta property="og:title" content="LLM Arena V2 - 大模型竞技场">
-<meta property="og:description" content="让 50+ 个大模型供应商内卷竞争，优胜劣汰！">
+<title>LLM Arena .skill - Make 50+ LLMs Compete</title>
+<meta name="description" content="A Claude Code skill that makes 50+ LLM providers compete. 10-dimension scoring, Elo ratings, emoji moods, achievements, and user veto power.">
+<meta name="keywords" content="LLM, AI, Claude, GPT, DeepSeek, Gemini, model ranking, arena, API, benchmark, Claude Code, skill">
+<meta property="og:title" content="LLM Arena .skill - Make 50+ LLMs Compete">
+<meta property="og:description" content="A Claude Code skill that makes 50+ LLM providers compete. 10-dimension scoring, Elo ratings, emoji moods, achievements.">
 <meta property="og:url" content="https://han-cy830.github.io/llm-arena">
 <meta property="og:type" content="website">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; }
+
+/* Language Switch */
+.lang-switch { position: fixed; top: 16px; right: 20px; z-index: 100; display: flex; gap: 4px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 4px; }
+.lang-btn { padding: 6px 14px; border: none; border-radius: 6px; background: transparent; color: #888; cursor: pointer; font-size: 0.85em; font-weight: 600; transition: all 0.2s; }
+.lang-btn:hover { color: #ccc; }
+.lang-btn.active { background: linear-gradient(90deg, #00d2ff, #7b2ff7); color: #fff; }
+
+/* Hide/show by lang */
+[data-lang="zh"] { display: none; }
+body.lang-zh [data-lang="zh"] { display: block; }
+body.lang-zh [data-lang="en"] { display: none; }
+body.lang-zh span[data-lang="zh"],
+body.lang-zh a[data-lang="zh"] { display: inline; }
+body.lang-zh span[data-lang="en"],
+body.lang-zh a[data-lang="en"] { display: none; }
+span[data-lang="zh"], a[data-lang="zh"] { display: none; }
+span[data-lang="en"], a[data-lang="en"] { display: inline; }
+div[data-lang="zh"], p[data-lang="zh"], h2[data-lang="zh"], h3[data-lang="zh"] { display: none; }
+div[data-lang="en"], p[data-lang="en"], h2[data-lang="en"], h3[data-lang="en"] { display: block; }
+
 .hero { text-align: center; padding: 80px 20px 60px; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); }
 .hero h1 { font-size: 3em; margin-bottom: 10px; background: linear-gradient(90deg, #00d2ff, #7b2ff7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .skill-tag { display: inline-block; font-size: 0.4em; vertical-align: middle; background: rgba(123,47,247,0.25); border: 1px solid rgba(123,47,247,0.5); padding: 4px 14px; border-radius: 20px; -webkit-text-fill-color: #c4a0ff; letter-spacing: 1px; margin-left: 8px; }
 .hero .subtitle { font-size: 1.3em; color: #aaa; margin-bottom: 30px; }
 .install-cmd { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 16px 24px; display: inline-block; font-family: 'Fira Code', monospace; font-size: 1.2em; color: #4fc3f7; cursor: pointer; transition: all 0.3s; }
 .install-cmd:hover { border-color: #4fc3f7; box-shadow: 0 0 20px rgba(79,195,247,0.3); }
@@ -24,6 +45,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .badge-green { background: #1b5e20; color: #81c784; }
 .badge-blue { background: #0d47a1; color: #64b5f6; }
 .badge-yellow { background: #e65100; color: #ffb74d; }
+.badge-purple { background: #4a148c; color: #ce93d8; }
 .features { max-width: 1100px; margin: 0 auto; padding: 60px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 .feature { background: #111; border: 1px solid #222; border-radius: 12px; padding: 28px; transition: all 0.3s; }
 .feature:hover { border-color: #4fc3f7; transform: translateY(-4px); box-shadow: 0 8px 30px rgba(79,195,247,0.15); }
@@ -56,11 +78,19 @@ footer { text-align: center; padding: 30px; color: #555; font-size: 0.85em; bord
 </head>
 <body>
 
+<!-- Language Switch -->
+<div class="lang-switch">
+  <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+  <button class="lang-btn" onclick="setLang('zh')" id="btn-zh">CN</button>
+</div>
+
 <div class="hero">
-  <h1>LLM Arena V2</h1>
-  <div class="subtitle">让 50+ 个大模型供应商内卷竞争，优胜劣汰！</div>
+  <h1>LLM Arena <span class="skill-tag">.skill</span></h1>
+  <div class="subtitle" data-lang="en">Make 50+ LLM providers compete. May the best model win.</div>
+  <div class="subtitle" data-lang="zh">让 50+ 大模型供应商内卷竞争，优胜劣汰！</div>
   <div class="install-cmd" onclick="navigator.clipboard.writeText('npx github:Han-cy830/llm-arena')">npx github:Han-cy830/llm-arena</div>
   <div class="badges">
+    <span class="badge badge-purple">Claude Code Skill</span>
     <span class="badge badge-green">MIT License</span>
     <span class="badge badge-blue">Node.js 16+</span>
     <span class="badge badge-yellow">Python 3.10+</span>
@@ -70,38 +100,51 @@ footer { text-align: center; padding: 30px; color: #555; font-size: 0.85em; bord
 <div class="features">
   <div class="feature">
     <div class="emoji">📊</div>
-    <h3>10 维评分</h3>
-    <p>Token效率、思考速度、回答质量、一致性、错误率、性价比、延迟稳定、进步趋势、胜率、用户满意度</p>
+    <h3 data-lang="en">10-Dimension Scoring</h3>
+    <h3 data-lang="zh">10 维评分</h3>
+    <p data-lang="en">Token efficiency, speed, quality, consistency, error rate, cost-efficiency, latency stability, improvement trend, win rate, user satisfaction</p>
+    <p data-lang="zh">Token效率、思考速度、回答质量、一致性、错误率、性价比、延迟稳定、进步趋势、胜率、用户满意度</p>
   </div>
   <div class="feature">
     <div class="emoji">♟️</div>
-    <h3>Elo 评级</h3>
-    <p>国际象棋级 Elo 评分系统，K=32。击败强敌涨分多，输给弱敌扣分多，排名公平公正</p>
+    <h3 data-lang="en">Elo Rating</h3>
+    <h3 data-lang="zh">Elo 评级</h3>
+    <p data-lang="en">Chess-level Elo rating system, K=32. Beat a strong opponent to gain more, lose to a weak one to lose more.</p>
+    <p data-lang="zh">国际象棋级 Elo 评分系统，K=32。击败强敌涨分多，输给弱敌扣分多，排名公平公正</p>
+  </div>
+  <div class="feature">
+    <div class="emoji">⚔️</div>
+    <h3 data-lang="en">Blind Battle</h3>
+    <h3 data-lang="zh">盲测对决</h3>
+    <p data-lang="en">Inspired by Chatbot Arena. Hide model identity, let users vote for the better answer blindly.</p>
+    <p data-lang="zh">借鉴 Chatbot Arena，隐藏模型身份让用户盲投，选出真正更优的回答</p>
   </div>
   <div class="feature">
     <div class="emoji">😊</div>
-    <h3>emoji 心情</h3>
-    <p>19种心情动态变化：😎王者、🦄黑马、🤡飘了、😢连败、🔥势头正猛、⚙️疯狂内卷...</p>
+    <h3 data-lang="en">Emoji Moods</h3>
+    <h3 data-lang="zh">emoji 心情</h3>
+    <p data-lang="en">19 dynamic moods: Champion, Dark Horse, Overconfident, Losing Streak, Grinding Hard...</p>
+    <p data-lang="zh">19种心情动态变化：😎王者、🦄黑马、🤡飘了、😢连败、🔥势头正猛、⚙️疯狂内卷...</p>
   </div>
   <div class="feature">
     <div class="emoji">🏆</div>
-    <h3>成就系统</h3>
-    <p>19种成就：🩸首战告捷、💀五杀、🌪️势不可挡、👑逆袭之王、🗡️屠龙勇士、💎完美主义...</p>
+    <h3 data-lang="en">Achievements</h3>
+    <h3 data-lang="zh">成就系统</h3>
+    <p data-lang="en">19 achievements: First Blood, Penta Kill, Unstoppable, Giant Slayer, Comeback King...</p>
+    <p data-lang="zh">19种成就：🩸首战告捷、💀五杀、🌪️势不可挡、👑逆袭之王、🗡️屠龙勇士、💎完美主义...</p>
   </div>
   <div class="feature">
     <div class="emoji">👑</div>
-    <h3>用户否决权</h3>
-    <p>你的排名你做主！可以强制指定排名、封禁模型、直接打分。算法再强也强不过你的裁决</p>
-  </div>
-  <div class="feature">
-    <div class="emoji">📡</div>
-    <h3>API 智能路由</h3>
-    <p>排名最高的模型自动获得更高 API 调用优先级，优胜劣汰，自动选择最优模型</p>
+    <h3 data-lang="en">User Veto Power</h3>
+    <h3 data-lang="zh">用户否决权</h3>
+    <p data-lang="en">Your ranking, your rules. Force ranks, ban models, rate directly. Algorithm can't override you.</p>
+    <p data-lang="zh">你的排名你做主！可以强制指定排名、封禁模型、直接打分。算法再强也强不过你的裁决</p>
   </div>
 </div>
 
 <div class="providers">
-  <h2>支持供应商</h2>
+  <h2 data-lang="en">Supported Providers</h2>
+  <h2 data-lang="zh">支持供应商</h2>
   <div class="count">50+</div>
   <div class="list">
     <span class="tag">Claude Official</span>
@@ -109,79 +152,96 @@ footer { text-align: center; padding: 30px; color: #555; font-size: 0.85em; bord
     <span class="tag">GPT-4o</span>
     <span class="tag">Gemini</span>
     <span class="tag">OpenRouter</span>
-    <span class="tag">火山引擎</span>
-    <span class="tag">百炼</span>
+    <span class="tag">Volcengine</span>
+    <span class="tag">DashScope</span>
     <span class="tag">Kimi</span>
     <span class="tag">Zhipu GLM</span>
     <span class="tag">SiliconFlow</span>
     <span class="tag">AWS Bedrock</span>
     <span class="tag">GitHub Copilot</span>
-    <span class="tag">胜算云</span>
+    <span class="tag">Shengsuanyun</span>
     <span class="tag">MiniMax</span>
     <span class="tag">Nvidia</span>
-    <span class="tag">优云智算</span>
+    <span class="tag">Youyun</span>
     <span class="tag">+40 more...</span>
   </div>
 </div>
 
 <div class="moods">
-  <h2>emoji 心情系统</h2>
+  <h2 data-lang="en">Emoji Mood System</h2>
+  <h2 data-lang="zh">emoji 心情系统</h2>
   <div class="mood-grid">
-    <div class="mood"><div class="icon">😎</div><div class="name">王者</div></div>
-    <div class="mood"><div class="icon">😤</div><div class="name">志在必得</div></div>
-    <div class="mood"><div class="icon">🦄</div><div class="name">黑马</div></div>
-    <div class="mood"><div class="icon">🔥</div><div class="name">势头正猛</div></div>
-    <div class="mood"><div class="icon">⚙️</div><div class="name">疯狂内卷</div></div>
-    <div class="mood"><div class="icon">🤡</div><div class="name">飘了</div></div>
-    <div class="mood"><div class="icon">🥳</div><div class="name">连胜中</div></div>
-    <div class="mood"><div class="icon">😢</div><div class="name">连败中</div></div>
-    <div class="mood"><div class="icon">🦅</div><div class="name">涅槃重生</div></div>
-    <div class="mood"><div class="icon">🐣</div><div class="name">新来的</div></div>
-    <div class="mood"><div class="icon">😴</div><div class="name">摸鱼中</div></div>
-    <div class="mood"><div class="icon">🦥</div><div class="name">摆烂了</div></div>
-    <div class="mood"><div class="icon">💪</div><div class="name">奋起直追</div></div>
-    <div class="mood"><div class="icon">😰</div><div class="name">压力山大</div></div>
-    <div class="mood"><div class="icon">🧓</div><div class="name">老将</div></div>
-    <div class="mood"><div class="icon">💀</div><div class="name">已封禁</div></div>
+    <div class="mood"><div class="icon">😎</div><div class="name" data-lang="en">Champion</div><div class="name" data-lang="zh">王者</div></div>
+    <div class="mood"><div class="icon">😤</div><div class="name" data-lang="en">Determined</div><div class="name" data-lang="zh">志在必得</div></div>
+    <div class="mood"><div class="icon">🦄</div><div class="name" data-lang="en">Dark Horse</div><div class="name" data-lang="zh">黑马</div></div>
+    <div class="mood"><div class="icon">🔥</div><div class="name" data-lang="en">On Fire</div><div class="name" data-lang="zh">势头正猛</div></div>
+    <div class="mood"><div class="icon">⚙️</div><div class="name" data-lang="en">Grinding</div><div class="name" data-lang="zh">疯狂内卷</div></div>
+    <div class="mood"><div class="icon">🤡</div><div class="name" data-lang="en">Overconfident</div><div class="name" data-lang="zh">飘了</div></div>
+    <div class="mood"><div class="icon">🥳</div><div class="name" data-lang="en">Win Streak</div><div class="name" data-lang="zh">连胜中</div></div>
+    <div class="mood"><div class="icon">😢</div><div class="name" data-lang="en">Losing Streak</div><div class="name" data-lang="zh">连败中</div></div>
+    <div class="mood"><div class="icon">🦅</div><div class="name" data-lang="en">Reborn</div><div class="name" data-lang="zh">涅槃重生</div></div>
+    <div class="mood"><div class="icon">🐣</div><div class="name" data-lang="en">Newcomer</div><div class="name" data-lang="zh">新来的</div></div>
+    <div class="mood"><div class="icon">😴</div><div class="name" data-lang="en">Slacking</div><div class="name" data-lang="zh">摸鱼中</div></div>
+    <div class="mood"><div class="icon">🦥</div><div class="name" data-lang="en">Given Up</div><div class="name" data-lang="zh">摆烂了</div></div>
+    <div class="mood"><div class="icon">💪</div><div class="name" data-lang="en">Catching Up</div><div class="name" data-lang="zh">奋起直追</div></div>
+    <div class="mood"><div class="icon">😰</div><div class="name" data-lang="en">Under Pressure</div><div class="name" data-lang="zh">压力山大</div></div>
+    <div class="mood"><div class="icon">🧓</div><div class="name" data-lang="en">Veteran</div><div class="name" data-lang="zh">老将</div></div>
+    <div class="mood"><div class="icon">💀</div><div class="name" data-lang="en">Banned</div><div class="name" data-lang="zh">已封禁</div></div>
   </div>
 </div>
 
 <div class="achievements">
-  <h2>成就殿堂</h2>
+  <h2 data-lang="en">Achievement Hall</h2>
+  <h2 data-lang="zh">成就殿堂</h2>
   <div class="ach-grid">
-    <div class="ach">🩸 首战告捷</div>
-    <div class="ach">🎩 帽子戏法</div>
-    <div class="ach">💀 五杀</div>
-    <div class="ach">🌪️ 势不可挡</div>
-    <div class="ach">⚡ 超神</div>
-    <div class="ach">🦾 铁人</div>
-    <div class="ach">💎 完美主义</div>
-    <div class="ach">⏱️ 极速恶魔</div>
-    <div class="ach">💰 省钱达人</div>
-    <div class="ach">👑 逆袭之王</div>
-    <div class="ach">📊 稳如老狗</div>
-    <div class="ach">🗡️ 屠龙勇士</div>
-    <div class="ach">🏃 马拉松选手</div>
-    <div class="ach">✨ 零失误</div>
-    <div class="ach">📈 进步之星</div>
-    <div class="ach">🏆 冠军</div>
-    <div class="ach">🌟 月度MVP</div>
-    <div class="ach">⭐ 周度之星</div>
-    <div class="ach">❤️ 用户最爱</div>
+    <div class="ach">🩸 <span data-lang="en">First Blood</span><span data-lang="zh">首战告捷</span></div>
+    <div class="ach">🎩 <span data-lang="en">Hat Trick</span><span data-lang="zh">帽子戏法</span></div>
+    <div class="ach">💀 <span data-lang="en">Penta Kill</span><span data-lang="zh">五杀</span></div>
+    <div class="ach">🌪️ <span data-lang="en">Unstoppable</span><span data-lang="zh">势不可挡</span></div>
+    <div class="ach">⚡ <span data-lang="en">Legendary</span><span data-lang="zh">超神</span></div>
+    <div class="ach">🦾 <span data-lang="en">Iron Man</span><span data-lang="zh">铁人</span></div>
+    <div class="ach">💎 <span data-lang="en">Perfectionist</span><span data-lang="zh">完美主义</span></div>
+    <div class="ach">⏱️ <span data-lang="en">Speed Demon</span><span data-lang="zh">极速恶魔</span></div>
+    <div class="ach">💰 <span data-lang="en">Budget Saver</span><span data-lang="zh">省钱达人</span></div>
+    <div class="ach">👑 <span data-lang="en">Comeback King</span><span data-lang="zh">逆袭之王</span></div>
+    <div class="ach">📊 <span data-lang="en">Rock Steady</span><span data-lang="zh">稳如老狗</span></div>
+    <div class="ach">🗡️ <span data-lang="en">Giant Slayer</span><span data-lang="zh">屠龙勇士</span></div>
+    <div class="ach">🏃 <span data-lang="en">Marathoner</span><span data-lang="zh">马拉松选手</span></div>
+    <div class="ach">✨ <span data-lang="en">Zero Mistakes</span><span data-lang="zh">零失误</span></div>
+    <div class="ach">📈 <span data-lang="en">Rising Star</span><span data-lang="zh">进步之星</span></div>
+    <div class="ach">🏆 <span data-lang="en">Champion</span><span data-lang="zh">冠军</span></div>
+    <div class="ach">🌟 <span data-lang="en">Monthly MVP</span><span data-lang="zh">月度MVP</span></div>
+    <div class="ach">⭐ <span data-lang="en">Weekly Star</span><span data-lang="zh">周度之星</span></div>
+    <div class="ach">❤️ <span data-lang="en">User's Favorite</span><span data-lang="zh">用户最爱</span></div>
   </div>
 </div>
 
 <div class="cta">
-  <h2>让大模型们开始内卷吧</h2>
-  <p>一条命令，50+ 供应商，10维评分，emoji心情，成就系统</p>
-  <a href="https://github.com/Han-cy830/llm-arena" class="btn">GitHub 仓库</a>
+  <h2 data-lang="en">Let the LLMs Battle</h2>
+  <h2 data-lang="zh">让大模型们开始内卷吧</h2>
+  <p data-lang="en">One command. 50+ providers. 10-dimension scoring. Elo ratings. Emoji moods. Achievements.</p>
+  <p data-lang="zh">一条命令，50+ 供应商，10维评分，Elo评级，emoji心情，成就系统</p>
+  <a href="https://github.com/Han-cy830/llm-arena" class="btn">GitHub</a>
   &nbsp;
-  <a href="https://github.com/Han-cy830/llm-arena#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F" class="btn" style="background: linear-gradient(90deg, #7b2ff7, #00d2ff);">安装指南</a>
+  <a href="https://github.com/Han-cy830/llm-arena#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F" class="btn" style="background: linear-gradient(90deg, #7b2ff7, #00d2ff);" data-lang="en">Install Guide</a>
+  <a href="https://github.com/Han-cy830/llm-arena#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F" class="btn" style="background: linear-gradient(90deg, #7b2ff7, #00d2ff);" data-lang="zh">安装指南</a>
 </div>
 
 <footer>
-  LLM Arena V2 &copy; 2026 Han-cy830 | MIT License
+  LLM Arena .skill &copy; 2026 Han-cy830 | MIT License
 </footer>
+
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('lang-zh', lang === 'zh');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  localStorage.setItem('llm-arena-lang', lang);
+}
+// Restore saved language
+const saved = localStorage.getItem('llm-arena-lang');
+if (saved === 'zh') setLang('zh');
+</script>
 
 </body>
 </html>
