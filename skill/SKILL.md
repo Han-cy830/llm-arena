@@ -1,6 +1,6 @@
 ---
 name: llm-arena
-description: Use when evaluating multiple LLMs, comparing model performance, switching API providers, managing model rankings, or routing API calls to the best model. Supports 50+ providers with 10-dimension scoring, Elo ratings, emoji moods, achievements, blind battles, and user veto power.
+description: Use when evaluating multiple LLMs, comparing model performance, switching API providers, managing model rankings, or routing API calls to the best model. Supports 50+ providers with 10-dimension scoring, Elo ratings, emoji moods, achievements, blind battles, and user veto power. Also available as MCP server for any AI tool.
 ---
 
 # LLM Arena V2 - 大模型竞技场
@@ -8,6 +8,8 @@ description: Use when evaluating multiple LLMs, comparing model performance, swi
 ## Overview
 
 50+ 供应商大模型内卷竞技场。10维评分 + Elo评级 + emoji心情 + 成就系统 + 盲测对决 + 段位系统。用户否决权至高无上。
+
+支持 CLI、MCP Server、VS Code Extension 三种使用方式。
 
 ## When to Use
 
@@ -29,14 +31,63 @@ python src/cli.py battle fame             # 荣誉殿堂
 python src/cli.py status                  # 完整状态面板
 ```
 
+## MCP Server
+
+任何 AI 工具都能通过 MCP 协议调用 LLM Arena。
+
+```bash
+# 启动 MCP Server (stdio)
+python src/mcp_server.py
+
+# 启动 MCP Server (HTTP)
+python src/mcp_server.py --http --port 8000
+```
+
+配置 `.mcp.json`:
+```json
+{
+  "mcpServers": {
+    "llm-arena": {
+      "command": "python",
+      "args": ["src/mcp_server.py"]
+    }
+  }
+}
+```
+
+### MCP Tools (12个)
+| 工具 | 说明 |
+|------|------|
+| `register_model` | 注册模型 |
+| `record_match` | 记录单次表现 |
+| `record_battle` | 多模型对决 |
+| `get_ranking` | 获取排名 |
+| `get_top_model` | 获取最佳模型 |
+| `user_veto` | 用户否决权 |
+| `set_weights` | 调整评分权重 |
+| `list_providers` | 列出供应商 |
+| `switch_provider` | 切换供应商 |
+| `get_active_config` | 当前配置 |
+| `vote_battle` | 盲测投票 |
+| `compare_models` | 双模型对比 |
+
+### MCP Resources (5个)
+| 资源 | 说明 |
+|------|------|
+| `arena://ranking/{period}` | 排名数据 |
+| `arena://providers` | 供应商列表 |
+| `arena://config` | 当前配置 |
+| `arena://mood` | 心情总览 |
+| `arena://achievements` | 成就数据 |
+
 ## CLI Commands
 
 ### 供应商管理
 | 命令 | 说明 |
 |------|------|
-| `provider list` | 列出 50+ 供应商 |
+| `provider list [--json]` | 列出 50+ 供应商 |
 | `provider switch <id> [model]` | 切换供应商/模型 |
-| `provider active` | 当前配置 |
+| `provider active [--json]` | 当前配置 |
 | `provider env` | 生成环境变量 |
 | `provider add <id> <json>` | 添加自定义供应商 |
 
@@ -65,6 +116,7 @@ python src/cli.py status                  # 完整状态面板
 | 命令 | 说明 |
 |------|------|
 | `rank [daily\|weekly\|monthly\|all]` | 排行榜 |
+| `rank json [period]` | JSON 格式排名 |
 | `rank detail <model>` | 模型详情 |
 | `rank mood` | 心情总览 |
 | `rank achievements` | 成就殿堂 |
